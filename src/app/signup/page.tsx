@@ -19,7 +19,7 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add form submission logic here, such as sending data to the server for registration
+    // Add form submission logic
     console.log(formData);
     // Reset form after submission
     setFormData({
