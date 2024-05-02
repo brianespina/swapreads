@@ -31,7 +31,7 @@ export default function Form() {
       },
       body: JSON.stringify(formData),
     });
-    console.log(response);
+    // console.log(response);
 
     // Reset form after submission
     setFormData({
