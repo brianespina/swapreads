@@ -19,13 +19,19 @@ export default function Form() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch(`/src/app/api/auth/register`, {
+
+    if (formData.confirmPassword !== formData.password) {
+      alert("Password do not match");
+      return;
+    }
+    const response = await fetch(`/api/auth/register`, {
       method: "POST",
-      body: JSON.stringify({
-        formData,
-      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
     });
-    console.log(formData);
+    console.log(response);
 
     // Reset form after submission
     setFormData({
