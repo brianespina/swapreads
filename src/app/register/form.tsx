@@ -1,5 +1,19 @@
 "use client";
 import { FormEvent, useState } from "react";
+import { z } from "zod";
+
+const FormSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100),
+  email: z.string().min(1, "Email is required").email("Invalid email"),
+  password: z
+    .string()
+    .min(1, "Password is required")
+    .min(8, "Password must have 8 characters"),
+  confirmPassword: z
+    .string()
+    .min(1, "Password is required")
+    .min(8, "Password must have 8 characters"),
+});
 
 export default function Form() {
   const [formData, setFormData] = useState({
@@ -85,6 +99,7 @@ export default function Form() {
             value={formData.password}
             onChange={handleChange}
             required
+            min={6}
             className="border rounded-lg p-2"
           />
         </div>
