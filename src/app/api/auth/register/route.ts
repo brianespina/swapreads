@@ -1,36 +1,43 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
+import { db } from "@/lib/prisma";
 import { hash } from "bcrypt";
-import { PrismaClient } from "@prisma/client/extension";
-
-const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   try {
-    const { name, email, password } = await request.json();
-    // console.log(name, email, password);
-    const validatedCredentials = z
-      .object({
-        name: z.string(),
-        email: z.string().email(),
-        password: z.string().min(4),
-      })
-      .parse({ name, email, password });
+    const body = await request.json();
+    const { name, email, password } = body;
 
-    const hashedPassword = await hash(validatedCredentials.password, 10);
+    // check if email is unique
+    const isEmailUnique = await db.users.findUnique({
+      where: { email: email },
+    });
 
-    const newUser = await prisma.user.create({
+    if (isEmailUnique) {
+      return NextResponse.json({
+        user: null,
+        message: "Email already exist",
+        status: 409,
+      });
+    }
+
+    const hashedPassword = await hash(password, 10);
+
+    const newUser = await db.users.create({
       data: {
-        name: validatedCredentials.name,
-        email: validatedCredentials.email,
+        name: name,
+        email: email,
         password: hashedPassword,
       },
     });
 
-    console.log(newUser);
-  } catch (error) {
-    console.log(error);
-  }
+    const { password: newUserPassword, ...rest } = newUser;
 
-  return NextResponse.json({ message: "success" });
+    return NextResponse.json(
+      {
+        user: rest,
+        message: "Registration Succesful",
+      },
+      { status: 201 }
+    );
+  } catch (error) {}
 }

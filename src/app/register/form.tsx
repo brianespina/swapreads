@@ -31,7 +31,8 @@ export default function Form() {
       },
       body: JSON.stringify(formData),
     });
-    // console.log(response);
+    const data = await response.json();
+    console.log(data);
 
     // Reset form after submission
     setFormData({
