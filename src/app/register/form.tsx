@@ -2,18 +2,20 @@
 import { FormEvent, useState } from "react";
 import { z } from "zod";
 
-const FormSchema = z.object({
-  name: z.string().min(1, "Name is required").max(100),
-  email: z.string().min(1, "Email is required").email("Invalid email"),
-  password: z
-    .string()
-    .min(1, "Password is required")
-    .min(8, "Password must have 8 characters"),
-  confirmPassword: z
-    .string()
-    .min(1, "Password is required")
-    .min(8, "Password must have 8 characters"),
-});
+// const FormSchema = z
+//   .object({
+//     name: z.string().min(1, "Name is required").max(100),
+//     email: z.string().min(1, "Email is required").email("Invalid email"),
+//     password: z
+//       .string()
+//       .min(1, "Password is required")
+//       .min(8, "Password must have 8 characters"),
+//     confirmPassword: z.string().min(1, "Password is required"),
+//   })
+//   .refine((data) => data.password === data.confirmPassword, {
+//     path: ["confirmPassword"],
+//     message: "Password do not match",
+//   });
 
 export default function Form() {
   const [formData, setFormData] = useState({
