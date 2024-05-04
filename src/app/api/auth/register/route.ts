@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     const { name, email, password } = userSchema.parse(body);
 
     // check if email is unique
-    const isEmailUnique = await db.users.findUnique({
+    const isEmailUnique = await db.user.findUnique({
       where: { email: email },
     });
 
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 
     const hashedPassword = await hash(password, 10);
 
-    const newUser = await db.users.create({
+    const newUser = await db.user.create({
       data: {
         name: name,
         email: email,
@@ -49,5 +49,7 @@ export async function POST(request: Request) {
       },
       { status: 201 }
     );
-  } catch (error) {}
+  } catch (error) {
+      return NextResponse.json({message: "something went wrong"})
+  }
 }
