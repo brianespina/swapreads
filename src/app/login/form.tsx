@@ -14,6 +14,8 @@ export default function Form() {
             password: "",
         }
     )
+    const [error, setError] = useState<string | undefined>()
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
         setFormData((prev) => ({
@@ -21,18 +23,22 @@ export default function Form() {
             [name]: value
         }))
     }
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        signIn("credentials", {
+        const authData = await signIn("credentials", {
             email: formData.email, 
             password: formData.password,
             redirect: false
         }) 
+        if(authData.status === 401){
+            setError(authData.error)
+        }
     }
     return (
         <>
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-2 border shadow-lg rounded-2xl p-5 md:w-[360px]">
+                    <div>{error || ""}</div>
                     <div className="flex flex-col">
                         <label htmlFor="email" className="font-semibold">
                             Email
@@ -65,7 +71,7 @@ export default function Form() {
                         type="submit"
                         className="bg-gray-600 rounded-lg text-white p-2 mt-4"
                     >
-                        Sign up
+                        Sign In
                     </button>
                 </div>
             </form>
