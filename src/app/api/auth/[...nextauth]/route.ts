@@ -1,7 +1,9 @@
 import NextAuth from "next-auth";
-import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { db } from "@/lib/prisma";
+import { compare } from "bcrypt";
+
 
 const providers = [
     CredentialsProvider({
@@ -9,11 +11,30 @@ const providers = [
             username: { label: "Email", type: "text" },
             password: { label: "Password", type: "password" },
         },
-        async authorize(credentials):Promise<any> {
-            console.log(credentials)
+        async authorize(credentials): Promise<any> {
+            //@ts-ignore
+            const { email, password } = credentials
+            const user = await db.user.findUnique({
+                where: {
+                    email
+                }
+            })
+            //if user exists check password
+            if (!user) {
+                throw new Error("Email does not exsist")
+            }
+            //compare password
+            const isMatch = await compare(password, user.password)
+            if(!isMatch){
+                throw new Error("Wrong Password")
+            }
+            //return user
+            return {
+                name: user.name,
+                email: user.email
+            }
         },
     }),
-
     GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID as string,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
