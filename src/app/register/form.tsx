@@ -1,31 +1,22 @@
 "use client";
-import { FormEvent, useState } from "react";
-import { z } from "zod";
+import { ChangeEvent, FormEvent, useState } from "react";
 
-// const FormSchema = z
-//   .object({
-//     name: z.string().min(1, "Name is required").max(100),
-//     email: z.string().min(1, "Email is required").email("Invalid email"),
-//     password: z
-//       .string()
-//       .min(1, "Password is required")
-//       .min(8, "Password must have 8 characters"),
-//     confirmPassword: z.string().min(1, "Password is required"),
-//   })
-//   .refine((data) => data.password === data.confirmPassword, {
-//     path: ["confirmPassword"],
-//     message: "Password do not match",
-//   });
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export default function Form() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
