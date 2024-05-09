@@ -1,9 +1,9 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/prisma";
 import { compare } from "bcrypt";
-
 
 const providers = [
     CredentialsProvider({
@@ -50,6 +50,8 @@ const providers = [
 
 const handler = NextAuth({
     secret: "this is my secret",
+    //@ts-ignore
+    adapter: PrismaAdapter(db), 
     providers,
 });
 
