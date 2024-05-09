@@ -9,7 +9,7 @@ import Link from "next/link"
 
 function NavBar() {
     return (
-        <div className="w-full">
+        <div className="w-full pl-8 pt-8">
             <NavigationMenu>
                 <NavigationMenuItem className="list-none">
                     <Link href="/" legacyBehavior passHref>
