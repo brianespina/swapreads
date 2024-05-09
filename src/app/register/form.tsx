@@ -1,29 +1,26 @@
 "use client";
-import { FormEvent, useState } from "react";
-import { z } from "zod";
+import { ChangeEvent, FormEvent, useState } from "react";
 
-const FormSchema = z.object({
-  name: z.string().min(1, "Name is required").max(100),
-  email: z.string().min(1, "Email is required").email("Invalid email"),
-  password: z
-    .string()
-    .min(1, "Password is required")
-    .min(8, "Password must have 8 characters"),
-  confirmPassword: z
-    .string()
-    .min(1, "Password is required")
-    .min(8, "Password must have 8 characters"),
-});
+import { Message } from "primereact/message";
+
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export default function Form() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
-  const handleChange = (e) => {
+  const [error, setError] = useState<string | undefined>();
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -35,7 +32,7 @@ export default function Form() {
     e.preventDefault();
 
     if (formData.confirmPassword !== formData.password) {
-      alert("Password do not match");
+      setError("Password do not match");
       return;
     }
     const response = await fetch(`/api/auth/register`, {
@@ -46,7 +43,10 @@ export default function Form() {
       body: JSON.stringify(formData),
     });
     const data = await response.json();
-    console.log(data);
+    console.log(data.message);
+    setError(
+      data.message.issues ? data.message.issues[0].message : data.message
+    );
 
     // Reset form after submission
     setFormData({
@@ -99,7 +99,6 @@ export default function Form() {
             value={formData.password}
             onChange={handleChange}
             required
-            min={6}
             className="border rounded-lg p-2"
           />
         </div>
@@ -123,6 +122,7 @@ export default function Form() {
         >
           Sign up
         </button>
+        {error ? <Message className="text-red-500 gap-2" text={error} /> : null}
       </div>
     </form>
   );
