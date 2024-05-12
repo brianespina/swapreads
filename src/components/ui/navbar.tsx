@@ -14,7 +14,7 @@ function NavBar() {
                 <NavigationMenuItem className="list-none">
                     <Link href="/" legacyBehavior passHref>
                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                        Home
+                            Home
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
@@ -22,6 +22,13 @@ function NavBar() {
                     <Link href="/profile/guest" legacyBehavior passHref>
                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Profile Guest
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem className="list-none">
+                    <Link href="/profile/1" legacyBehavior passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                            Profile
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
