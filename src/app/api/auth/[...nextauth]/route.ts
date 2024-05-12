@@ -5,7 +5,7 @@ import { db } from "@/lib/prisma";
 import { compare } from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
-    secret: "this is my secret",
+    secret: process.env.NEXTAUTH_SECRET,
     providers: [
         CredentialsProvider({
             credentials: {
