@@ -23,6 +23,7 @@ export default function Form() {
   };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const authData = await signIn("credentials", {
       email: formData.email,
       password: formData.password,
@@ -56,7 +57,7 @@ export default function Form() {
               Password
             </label>
             <input
-              type="text"
+              type="password"
               id="password"
               name="password"
               value={formData.password}

@@ -5,52 +5,55 @@ import { db } from "@/lib/prisma";
 import { compare } from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
-    secret: process.env.NEXTAUTH_SECRET,
-    providers: [
-        CredentialsProvider({
-            credentials: {
-                username: { label: "Email", type: "text" },
-                password: { label: "Password", type: "password" },
+  secret: process.env.NEXTAUTH_SECRET,
+  providers: [
+    CredentialsProvider({
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials): Promise<any> {
+        try {
+          console.log(credentials);
+          //@ts-ignore
+          const { email, password } = credentials;
+          const user = await db.user.findUnique({
+            where: {
+              email: email,
             },
-            async authorize(credentials): Promise<any> {
-                try {
-                    //@ts-ignore
-                    const { username, password } = credentials
-                    const user = await db.user.findUnique({
-                        where: {
-                            email: username
-                        }
-                    })
-                    //if user exists check password
-                    if (!user) {
-                        throw new Error("Email does not exsist")
-                    }
-                    //compare password
-                    const isMatch = await compare(password, user.password)
-                    if (!isMatch) {
-                        throw new Error("Wrong Password")
-                    }
-                    //return user
-                    return {
-                        user: user.email
-                    }
-                } catch (error) {
-                    console.log(error)
-                }
-            },
-        }),
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID as string,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-            authorization: {
-                params: {
-                    prompt: "consent",
-                    access_type: "offline",
-                    response_type: "code",
-                },
-            },
-        })]
-}
+          });
+          //if user exists check password
+          if (!user) {
+            throw new Error("Email does not exsist");
+          }
+          //compare password
+          const isMatch = await compare(password, user.password);
+          if (!isMatch) {
+            throw new Error("Wrong Password");
+          }
+          //return user
+          return {
+            user,
+          };
+        } catch (error) {
+          console.log(error);
+          return null;
+        }
+      },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
+    }),
+  ],
+};
 
 const handler = NextAuth(authOptions);
 
