@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function HomeNavBar() {
   return (
-    <div className="flex justify-between items-center w-full px-4 py-8">
+    <div className="flex justify-between items-center w-full py-8">
       <div className="relative h-[35px] w-[170px] aspect-auto">
         <Image
           src="/images/swap-reads-logo-horizontal.png"
@@ -15,12 +15,15 @@ export default function HomeNavBar() {
           alt="Swap Reads Logo"
         />
       </div>
-      <div>
+      <div className="flex gap-4">
+        <div>home</div>
+        <div>home</div>
+        <div>home</div>
         <div>home</div>
         <div></div>
       </div>
       <div>
-        <Button asChild size="login" variant="login">
+        <Button asChild size="lg" variant="primary">
           <Link href="/login">Login</Link>
         </Button>
       </div>
