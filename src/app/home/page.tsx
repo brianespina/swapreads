@@ -2,6 +2,7 @@ import Image from "next/image";
 import HomeNavBar from "@/components/HomeNavBar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
           <HomeNavBar />
         </div>
         <section id="hero" className="h-3/4">
-          <div className="grid md:grid-cols-2 h-full items-center">
+          <div className="md:grid  md:grid-cols-2 h-full items-center">
             <div className="flex flex-col gap-8">
               <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
                 Lorem ipsum dolor sit amet
@@ -42,6 +43,17 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </section>
+        <section>
+          <div className="flex justify-between py-4">
+            <h3 className="text-2xl font-bold tracking-tight text-gray-900">
+              What&apos;s new
+            </h3>
+            <Link href="#" className="text-[#f58658]">
+              View all
+            </Link>
+          </div>
+          <div>book carousel</div>
         </section>
       </div>
     </>
