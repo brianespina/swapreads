@@ -1,5 +1,7 @@
+"use client";
 import Image from "next/image";
 import HomeNavBar from "@/components/HomeNavBar";
+import TrendingBooks from "./TrendingBooks";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -15,11 +17,10 @@ export default function Home() {
           <div className="md:grid  md:grid-cols-2 h-full items-center">
             <div className="flex flex-col gap-8">
               <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                Lorem ipsum dolor sit amet
+                Discover and Share Your Favorites with Swap Reads
               </h2>
               <p className="text-lg leading-8 text-gray-600">
-                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore
+                Exchange, explore, and enjoy your next great read.
               </p>
               <div className="flex w-full max-w-sm items-center space-x-2 border-red-500">
                 <Input
@@ -47,13 +48,15 @@ export default function Home() {
         <section>
           <div className="flex justify-between py-4">
             <h3 className="text-2xl font-bold tracking-tight text-gray-900">
-              What&apos;s new
+              Trending Now
             </h3>
             <Link href="#" className="text-[#f58658]">
               View all
             </Link>
           </div>
-          <div>book carousel</div>
+          <div>
+            <TrendingBooks />
+          </div>
         </section>
       </div>
     </>

@@ -2,6 +2,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 
 import { Message } from "primereact/message";
+import { Button } from "@/components/ui/button";
 
 interface FormData {
   name: string;
@@ -116,12 +117,9 @@ export default function Form() {
             className="border rounded-lg p-2"
           />
         </div>
-        <button
-          type="submit"
-          className="bg-gray-600 rounded-lg text-white p-2 mt-4"
-        >
+        <Button type="submit" variant="primary" className="mt-4">
           Sign up
-        </button>
+        </Button>
         {error ? <Message className="text-red-500 gap-2" text={error} /> : null}
       </div>
     </form>

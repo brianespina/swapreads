@@ -2,6 +2,7 @@
 
 import { useState, ChangeEvent, FormEvent } from "react";
 import { signIn } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 interface FormData {
   email: string;
@@ -66,12 +67,9 @@ export default function Form() {
               className="border rounded-lg p-2 text-gray-900"
             />
           </div>
-          <button
-            type="submit"
-            className="bg-gray-600 rounded-lg text-white p-2 mt-4"
-          >
+          <Button variant="primary" type="submit">
             Sign In
-          </button>
+          </Button>
         </div>
       </form>
     </>
