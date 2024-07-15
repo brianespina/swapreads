@@ -4,6 +4,25 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 
+const menus = [
+  {
+    title: "Home",
+    path: "/home",
+  },
+  {
+    title: "Books",
+    path: "/books",
+  },
+  {
+    title: "Events",
+    path: "/events",
+  },
+  {
+    title: "Latest",
+    path: "/latest",
+  },
+];
+
 export default function HomeNavBar() {
   return (
     <div className="flex justify-between items-center w-full py-8">
@@ -16,11 +35,11 @@ export default function HomeNavBar() {
         />
       </div>
       <div className="flex gap-4">
-        <div>home</div>
-        <div>home</div>
-        <div>home</div>
-        <div>home</div>
-        <div></div>
+        {menus.map((menu, index) => (
+          <Link href={menu.path} key={index}>
+            {menu.title}
+          </Link>
+        ))}
       </div>
       <div>
         <Button asChild size="lg" variant="primary">
